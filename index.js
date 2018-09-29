@@ -1,26 +1,44 @@
 'use strict';
 
-const STORE = [
-  {name: "apples", checked: false},
-  {name: "oranges", checked: false},
-  {name: "milk", checked: true},
-  {name: "bread", checked: false}
-];
+const STORE = {
+    items: [
+            {name: "apples", checked: false},
+            {name: "oranges", checked: false},
+            {name: "milk", checked: true},
+            {name: "bread", checked: false}
+         ],
+    hideChecked: false,
+}
 
 
 function generateItemElement(item, itemIndex, template) {
-  return `
-    <li class="js-item-index-element" data-item-index="${itemIndex}">
-      <span class="shopping-item js-shopping-item ${item.checked ? "shopping-item__checked" : ''}">${item.name}</span>
-      <div class="shopping-item-controls">
-        <button class="shopping-item-toggle js-item-toggle">
-            <span class="button-label">check</span>
-        </button>
-        <button class="shopping-item-delete js-item-delete">
-            <span class="button-label">delete</span>
-        </button>
-      </div>
-    </li>`;
+    if(STORE.hideChecked){
+        return `
+            <li class="js-item-index-element ${item.checked ? "hidden" : ''}" data-item-index="${itemIndex}">
+            <span class="shopping-item js-shopping-item ">${item.name}</span>
+            <div class="shopping-item-controls">
+                <button class="shopping-item-toggle js-item-toggle">
+                    <span class="button-label">check</span>
+                </button>
+                <button class="shopping-item-delete js-item-delete">
+                    <span class="button-label">delete</span>
+                </button>
+            </div>
+            </li>`;
+    }else{
+        return `
+            <li class="js-item-index-element" data-item-index="${itemIndex}">
+            <span class="shopping-item js-shopping-item ${item.checked ? "shopping-item__checked" : ''}">${item.name}</span>
+            <div class="shopping-item-controls">
+                <button class="shopping-item-toggle js-item-toggle">
+                    <span class="button-label">check</span>
+                </button>
+                <button class="shopping-item-delete js-item-delete">
+                    <span class="button-label">delete</span>
+                </button>
+            </div>
+            </li>`;
+    }
 }
 
 
@@ -36,7 +54,7 @@ function generateShoppingItemsString(shoppingList) {
 function renderShoppingList() {
   // render the shopping list in the DOM
   console.log('`renderShoppingList` ran');
-  const shoppingListItemsString = generateShoppingItemsString(STORE);
+  const shoppingListItemsString = generateShoppingItemsString(STORE.items);
 
   // insert that HTML into the DOM
   $('.js-shopping-list').html(shoppingListItemsString);
@@ -45,7 +63,7 @@ function renderShoppingList() {
 
 function addItemToShoppingList(itemName) {
   console.log(`Adding "${itemName}" to shopping list`);
-  STORE.push({name: itemName, checked: false});
+  STORE.items.push({name: itemName, checked: false});
 }
 
 function handleNewItemSubmit() {
@@ -61,7 +79,7 @@ function handleNewItemSubmit() {
 
 function toggleCheckedForListItem(itemIndex) {
   console.log("Toggling checked property for item at index " + itemIndex);
-  STORE[itemIndex].checked = !STORE[itemIndex].checked;
+  STORE.items[itemIndex].checked = !STORE.items[itemIndex].checked;
 }
 
 
@@ -87,9 +105,29 @@ function handleDeleteItemClicked() {
   // item
   $('.js-shopping-list').on('click', '.js-item-delete', event => {
       const itemIndex = getItemIndexFromElement(event.currentTarget);
-      STORE.splice(itemIndex, 1);
+      STORE.items.splice(itemIndex, 1);
       renderShoppingList();
   });
+}
+
+function handleCheckStatus() {
+    $('#checkbox').ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+                STORE.hideChecked = true;
+                renderShoppingList();
+                console.log("Checkbox is checked.");
+            }
+            else if($(this).prop("checked") == false){
+                STORE.hideChecked = false;
+                renderShoppingList();
+                console.log("Checkbox is unchecked.");
+            }
+        });
+    });
+    
+
+    
 }
 
 // this function will be our callback when the page loads. it's responsible for
@@ -101,7 +139,11 @@ function handleShoppingList() {
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
+  handleCheckStatus();
 }
 
 // when the page loads, call `handleShoppingList`
 $(handleShoppingList);
+
+// to toggle between displaying all items or 
+// displaying only items that are unchecked

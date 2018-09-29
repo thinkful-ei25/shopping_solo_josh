@@ -49,3 +49,11 @@
   .shopping-item__checked {
     text-decoration: line-through;
   }
+
+  .checkbox{
+      margin-top: 20px;
+  }
+
+  .hidden {
+      visibility: hidden;
+  }
