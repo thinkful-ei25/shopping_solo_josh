@@ -62,7 +62,7 @@ function mapByFiltered(input){
 
     }else{
         var filtered = STORE.items.filter(function(item){
-            if(item.name.includes(input)){
+            if(item.name.toLowerCase().includes(input.toLowerCase())){
                 return item.name;
             }
         });
