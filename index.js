@@ -50,14 +50,16 @@ function generateShoppingItemsString(shoppingList) {
   return items.join("");
 }
 
+function mapByFiltered(input){
+    var filtered = STORE.items.filter(function(item){
+        return item.name === input;
+    });
+    const shoppingListItemsString = generateShoppingItemsString(filtered);
+
+    $('.js-shopping-list').html(shoppingListItemsString);
+}
 
 function renderShoppingList() {
-  // render the shopping list in the DOM
-//   if(SEARCHED){
-//       const filteredList = generateFilteredItems(STORE.items);
-//       // insert that HTML into the DOM
-//       $('.js-shopping-list').html(filteredList);
-//   }else{
         console.log('`renderShoppingList` ran');
         const shoppingListItemsString = generateShoppingItemsString(STORE.items);
 
@@ -109,9 +111,8 @@ function handleSearch(){
         event.preventDefault();
         const value = $('.js-searched').val();
         console.log(`you searched ${value}`);
-        //mapByFiltered(value);
+        mapByFiltered(value);
     });
-
 }
 
 
