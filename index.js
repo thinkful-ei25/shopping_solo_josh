@@ -53,12 +53,17 @@ function generateShoppingItemsString(shoppingList) {
 
 function renderShoppingList() {
   // render the shopping list in the DOM
-  console.log('`renderShoppingList` ran');
-  const shoppingListItemsString = generateShoppingItemsString(STORE.items);
+//   if(SEARCHED){
+//       const filteredList = generateFilteredItems(STORE.items);
+//       // insert that HTML into the DOM
+//       $('.js-shopping-list').html(filteredList);
+//   }else{
+        console.log('`renderShoppingList` ran');
+        const shoppingListItemsString = generateShoppingItemsString(STORE.items);
 
-  // insert that HTML into the DOM
-  $('.js-shopping-list').html(shoppingListItemsString);
-}
+        // insert that HTML into the DOM
+        $('.js-shopping-list').html(shoppingListItemsString);
+  }
 
 
 function addItemToShoppingList(itemName) {
@@ -99,6 +104,16 @@ function handleItemCheckClicked() {
   });
 }
 
+function handleSearch(){
+    $('#searchInput').submit( function(event) {
+        event.preventDefault();
+        const value = $('.js-searched').val();
+        console.log(`you searched ${value}`);
+        //mapByFiltered(value);
+    });
+
+}
+
 
 function handleDeleteItemClicked() {
   // this function will be responsible for when users want to delete a shopping list
@@ -124,11 +139,10 @@ function handleCheckStatus() {
                 console.log("Checkbox is unchecked.");
             }
         });
-    });
-    
-
-    
+    });   
 }
+
+
 
 // this function will be our callback when the page loads. it's responsible for
 // initially rendering the shopping list, and activating our individual functions
@@ -140,6 +154,7 @@ function handleShoppingList() {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleCheckStatus();
+  handleSearch();
 }
 
 // when the page loads, call `handleShoppingList`

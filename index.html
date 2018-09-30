@@ -12,7 +12,7 @@
     <div class="container">
         <h1>Shopping List</h1>
         <form id="js-shopping-list-form">
-            <label for="shopping-list-entry">Add an item</label>
+            <label for="shopping-list-entry"></label>
             <input type="text" name="shopping-list-entry" class="js-shopping-list-entry" placeholder="e.g., broccoli">
             <button type="submit">Add item</button>            
         </form>
@@ -22,6 +22,13 @@
                 <input type="checkbox"  value="checked" id="checkbox-id"> 
                 <label for="checkbox-id"> Hide Checked</label>
             </form>
+         </div>
+         <div class=searchBar>
+             <form id="searchInput">
+                 <input type="text" placeholder="Search..." name="search" class="js-searched">
+                 <button type="submit"><i class="fa fa-search">Search</i></button>
+             </form>
+
          </div>
 
         <ul class="shopping-list js-shopping-list">

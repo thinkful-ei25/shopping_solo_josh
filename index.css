@@ -54,6 +54,10 @@
       margin-top: 20px;
   }
 
+  .searchBar{
+      margin-top: 20px;
+  }
+
   .hidden {
       visibility: hidden;
   }
