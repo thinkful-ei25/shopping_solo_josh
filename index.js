@@ -23,7 +23,7 @@ function generateItemElement(item, itemIndex, template) {
                 <button class="shopping-item-delete js-item-delete">
                     <span class="button-label">delete</span>
                 </button>
-                <button class="shopping-item-delete js-item-edit">
+                <button class="shopping-item-edit js-item-edit">
                     <span class="button-label">edit</span>
                 </button>
             </div>
@@ -39,7 +39,7 @@ function generateItemElement(item, itemIndex, template) {
                 <button class="shopping-item-delete js-item-delete">
                     <span class="button-label">delete</span>
                 </button>
-                <button class="shopping-item-delete js-item-edit">
+                <button class="shopping-item-edit js-item-edit">
                     <span class="button-label">edit</span>
                 </button>
             </div>
@@ -138,6 +138,13 @@ function handleSearch(){
 
 }
 
+function handleEditItemClicked(){
+    $('.js-shopping-list').on('click', '.js-item-edit', function(){
+        console.log('you pressed edit');
+        // renderShoppingList();
+    });
+}
+
 
 function handleDeleteItemClicked() {
   // this function will be responsible for when users want to delete a shopping list
@@ -179,6 +186,7 @@ function handleShoppingList() {
   handleDeleteItemClicked();
   handleCheckStatus();
   handleSearch();
+  handleEditItemClicked();
 }
 
 // when the page loads, call `handleShoppingList`
