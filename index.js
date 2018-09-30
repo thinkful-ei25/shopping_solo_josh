@@ -20,8 +20,8 @@ function generateItemElement(item, itemIndex, template) {
                 <button class="shopping-item-toggle js-item-toggle">
                     <span class="button-label">check</span>
                 </button>
-                <button class="shopping-item-delete js-item-delete">
-                    <span class="button-label">delete</span>
+                <button class="shopping-item-delete js-item-edit">
+                    <span class="button-label">edit</span>
                 </button>
             </div>
             </li>`;
@@ -35,6 +35,9 @@ function generateItemElement(item, itemIndex, template) {
                 </button>
                 <button class="shopping-item-delete js-item-delete">
                     <span class="button-label">delete</span>
+                </button>
+                <button class="shopping-item-delete js-item-edit">
+                    <span class="button-label">edit</span>
                 </button>
             </div>
             </li>`;
@@ -59,7 +62,9 @@ function mapByFiltered(input){
 
     }else{
         var filtered = STORE.items.filter(function(item){
-            return item.name === input;
+            if(item.name.includes(input)){
+                return item.name;
+            }
         });
         
         const shoppingListItemsString = generateShoppingItemsString(filtered);
