@@ -2,10 +2,10 @@
 
 const STORE = {
     items: [
-            {name: "apples", checked: false},
-            {name: "oranges", checked: false},
-            {name: "milk", checked: true},
-            {name: "bread", checked: false}
+            {name: "apples", checked: false, editable: false},
+            {name: "oranges", checked: false, editable: false},
+            {name: "milk", checked: true, editable: false},
+            {name: "bread", checked: false, editable: false}
          ],
     hideChecked: false,
 }
@@ -14,8 +14,15 @@ const STORE = {
 function generateItemElement(item, itemIndex, template) {
     if(STORE.hideChecked){
         return `
-            <li class="js-item-index-element ${item.checked ? "hidden" : ''}" data-item-index="${itemIndex}">
-            <span class="shopping-item js-shopping-item ">${item.name}</span>
+            <li class="js-item-index-element  ${item.checked ? "hidden" : '' }" data-item-index="${itemIndex}">
+            
+            
+            <span class="shopping-item js-shopping-item ${item.editable ? "hidden" : ''} ">${item.name}</span>
+            <form id="js-shopping-edit-form" class=" ${item.editable ? '' : "hidden"} " >
+            <span class="shopping-item js-shopping-item">
+                <input type="text" name="shopping-list-entry" class="js-shopping-list-entry" placeholder="${item.name}">
+            </span>
+            </form>
             <div class="shopping-item-controls">
                 <button class="shopping-item-toggle js-item-toggle">
                     <span class="button-label">check</span>
@@ -31,7 +38,12 @@ function generateItemElement(item, itemIndex, template) {
     }else{
         return `
             <li class="js-item-index-element" data-item-index="${itemIndex}">
-            <span class="shopping-item js-shopping-item ${item.checked ? "shopping-item__checked" : ''}">${item.name}</span>
+            <span class="shopping-item js-shopping-item ${item.editable ? "hidden" : ''} ">${item.name}</span>
+            <form id="js-shopping-edit-form" class=" ${item.editable ? '' : "hidden"} editing" >
+            <span class="shopping-item js-shopping-item">
+                <input type="text" name="shopping-list-entry" class="js-shopping-list-entry" placeholder="${item.name}">
+            </span>
+            </form>
             <div class="shopping-item-controls">
                 <button class="shopping-item-toggle js-item-toggle">
                     <span class="button-label">check</span>
@@ -105,6 +117,10 @@ function toggleCheckedForListItem(itemIndex) {
   STORE.items[itemIndex].checked = !STORE.items[itemIndex].checked;
 }
 
+function toggleEditable(itemIndex) {
+    STORE.items[itemIndex].editable = !STORE.items[itemIndex].editable;
+}
+
 
 function getItemIndexFromElement(item) {
   const itemIndexString = $(item)
@@ -122,6 +138,18 @@ function handleItemCheckClicked() {
   });
 }
 
+function handleEditItemClicked(){
+    $('.js-shopping-list').on('click', '.js-item-edit', event => {
+        $('js-shopping-item').attr('contenteditable', 'true');
+        const itemIndex = getItemIndexFromElement(event.currentTarget);
+        toggleEditable(itemIndex);
+        console.log(STORE.items[itemIndex].editable);
+        console.log('you pressed edit');
+        renderShoppingList();
+    });
+}
+
+
 function handleSearch(){
     $('#searchInput').submit( function(event) {
         event.preventDefault();
@@ -138,12 +166,6 @@ function handleSearch(){
 
 }
 
-function handleEditItemClicked(){
-    $('.js-shopping-list').on('click', '.js-item-edit', function(){
-        console.log('you pressed edit');
-        // renderShoppingList();
-    });
-}
 
 
 function handleDeleteItemClicked() {

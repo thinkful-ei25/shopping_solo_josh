@@ -60,4 +60,12 @@
 
   .hidden {
       visibility: hidden;
+      height: 0;
+      margin: 0;
+      padding: 0;
+  }
+
+  .editing {
+      margin-top: 0px;
+      padding-top: 0px;
   }
